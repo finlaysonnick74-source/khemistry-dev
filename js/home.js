@@ -9,26 +9,30 @@ function KhemLayout(W,H){const A=W/H,mob=A<1,fov=mob?40:30,D=20,tn=T(fov*Math.PI
   if(!mob){const x0=-.33,x1=.94,top=.66,bot=-.50;
     const sW=(x1-x0)*hw0/18,sH=(top-bot)*hh0/10;const s=Math.min(sW,sH);o.s=s;
     o.X0=s===sW?x0*hw0:((x0+x1)/2)*hw0-9*s;o.Ytop=top*hh0;
-    o.ws=s*.97;const wy=o.Ytop-1.55*s,wx=o.X0+7*s;o.word=[...Array(9)].map((_,i)=>({x:wx+(i-4)*s*1.02,y:wy,z:.5*s}));
-    o.credit={x:wx,y:o.Ytop-2.78*s,z:0};
+    /* one lockup centred on the table: word, founder line, tagline, buttons. The table recedes + dims behind it (hero3d.js). */
+    const cx=o.X0+9*s;o.ws=s*1.12;const wy=o.Ytop-2.3*s;o.word=[...Array(9)].map((_,i)=>({x:cx+(i-4)*o.ws*1.05,y:wy,z:1.2*s}));
+    o.credit={x:cx,y:wy-1.32*s,z:0};o.dim=1;o.halo={x:cx,y:wy-2.3*s,w:18.5*s,h:9*s};
     o.ps=1.55*s;const pz=.9,py=o.Ytop-10*s-.42*s-o.ps/2,right=o.X0+18*s;o.ppp=[0,1,2].map(i=>({x:right-o.ps/2-(2-i)*1.22*o.ps,y:py,z:pz}));
     const pzp=1.4;let ph=1.62*hh(pzp),pw=ph*2/3;const maxW=(x0+1-.03)*hh(pzp)*A;if(pw>maxW){pw=maxW;ph=pw*1.5}
     o.por={w:pw,h:ph,x:x0*hh(pzp)*A-.03*hh(pzp)*A-pw/2+pw*.04,y:-hh(pzp)-.02*hh(pzp)+ph/2,z:pzp};
-    o.hl={x:o.X0,y:o.Ytop-10*s-.42*s,z:0,right:o.ppp[0].x-o.ps*.75};
+    o.hl={x:cx-6.6*s,y:o.credit.y-.95*s,z:0,right:cx+6.6*s,center:1};
   }else{/* portrait screens: word, then a slightly zoomed table (columns 1 and 18 crop at the edges so tiles stay legible),
     then Maidlin + the three P tiles in the band that ends ABOVE the headline (no overlap). */
     const ws=Math.min(2*hw0*.93/9.3,hh0*.11);o.ws=ws;const ndcY=px=>1-2*px/H;
     const wy=Math.min(.74*hh0,ndcY(80)*hh0-ws*.62);o.word=[...Array(9)].map((_,i)=>({x:(i-4)*ws*1.03,y:wy,z:.5*ws}));
     o.credit={x:0,y:wy-ws*1.02,z:0};
-    const s=Math.min(2*hw0/17.4,.062*hh0);o.s=s;o.X0=-9*s;o.Ytop=o.credit.y-ws*.5;
-    const tb=o.Ytop-10*s,tcPx=H-(W<380?232:W>=600?240:206);/* top of the headline block (bottom:58px + ~150px of text/buttons) */
+    const s=Math.min(2*hw0/17.4,.062*hh0);o.s=s;o.X0=-9*s;
+    /* tagline + buttons sit right under the founder line; the table starts below them */
+    const hlTop=o.credit.y-ws*.75,tcH=(W>=600?150:W<380?150:122)/H*2*hh0;o.hl={x:-hw0+18/W*2*hw0,y:hlTop,z:0,right:hw0-18/W*2*hw0,center:1};
+    o.Ytop=hlTop-tcH-.45*s;
+    const tb=o.Ytop-10*s,tcPx=H-62;/* top of the headline block (bottom:58px + ~150px of text/buttons) */
     const pzp=1.4,hp=hh(pzp),ptop=(tb/hh0-.02)*hp,pbot=ndcY(tcPx)*hp+.015*hp;let ph=Math.max(.2,ptop-pbot),pw=ph*2/3;
     const maxW=.9*hp*A;if(pw>maxW){pw=maxW;ph=pw*1.5}
     o.por={w:pw,h:ph,x:-hp*A+pw/2+.05*hp*A,y:pbot+ph/2,z:pzp};
     const zp=.9,hz=hh(zp),prR=(o.por.x+pw/2)/(hp*A),xa=(prR+.04)*hz*A,xb=.95*hz*A,yc=((ptop+pbot)/2)/hp*hz;
     o.ps=Math.min((xb-xa)/3.5,(ptop-pbot)/hp*hz*.6,s*2.6);const cx=(xa+xb)/2;
     o.ppp=[0,1,2].map(i=>({x:cx+(i-1)*1.2*o.ps,y:yc,z:zp}));
-    o.hl=null;}
+    }
   o.proj=p=>{const h=hh(p.z),w=h*A;return[(p.x/w+1)/2*100,(1-p.y/h)/2*100]};
   o.px=(len,z)=>len/(2*hh(z))*H;
   return o}

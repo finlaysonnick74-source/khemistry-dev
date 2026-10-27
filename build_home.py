@@ -50,7 +50,7 @@ pages["index.html"]=(H["title"],H["desc"],f'''
   <p class="rv rv-d2">{H["about_p"]}</p>
   <p class="rv rv-d3" style="margin-top:18px"><a href="about.html">{H["about_more"]}</a></p>
 </div></section>
-'''+human("glass")+FOOT('''<script src="js/home.js?v=7" defer></script>
+'''+human("glass")+FOOT('''<script src="js/home.js?v=8" defer></script>
 <script type="importmap">{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/three/addons/"}}</script>
-<script type="module" src="js/hero3d.js?v=7"></script>
+<script type="module" src="js/hero3d.js?v=8"></script>
 '''))

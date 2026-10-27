@@ -79,14 +79,25 @@ async function init(){
   symMat.onBeforeCompile=sh=>{sh.vertexShader=sh.vertexShader.replace('#include <common>','#include <common>\nattribute vec2 uvOff;').replace('#include <uv_vertex>','#include <uv_vertex>\n#ifdef USE_MAP\nvMapUv=uv*vec2('+(1/COLS).toFixed(6)+','+(1/ROWS).toFixed(6)+')+uvOff;\n#endif')};
   const symI=new THREE.InstancedMesh(symGeo,symMat,NT);symI.renderOrder=2;
   const tiles=[];const col=new THREE.Color();
-  SYM.forEach((s,i)=>{const[r,c]=pos(i+1),f=FAM[fam(i+1)];tiles.push({r,c,base:V(0,0,0),lift:0,scale:1,f});
+  SYM.forEach((s,i)=>{const[r,c]=pos(i+1),f=FAM[fam(i+1)];tiles.push({r,c,base:V(0,0,0),lift:0,scale:1,f,ghost:0});
     bodyI.setColorAt(i,col.set(f[0]));symI.setColorAt(i,col.set(f[1]));uvOff[i*2]=(i%COLS)/COLS;uvOff[i*2+1]=1-(Math.floor(i/COLS)+1)/ROWS;});
   symGeo.setAttribute('uvOff',new THREE.InstancedBufferAttribute(uvOff,2));scene.add(bodyI,symI);
   const mA=new THREE.Matrix4(),mB=new THREE.Matrix4(),qI=new THREE.Quaternion(),vS=V(1,1,1),vP=V(0,0,0);
   let tilesDirty=true;
-  function writeTile(i){const t=tiles[i];vP.copy(t.base);vP.z+=t.lift*L.s;vS.setScalar(L.s*t.scale);mA.compose(vP,qI,vS);bodyI.setMatrixAt(i,mA);
+  function writeTile(i){const t=tiles[i];vP.copy(t.base);vP.z+=t.lift*L.s-recede*L.s;vS.setScalar(L.s*t.scale);mA.compose(vP,qI,vS);bodyI.setMatrixAt(i,mA);
     vP.z+=.125*L.s*t.scale+.002;mB.compose(vP,qI,vS);symI.setMatrixAt(i,mB);}
   function flushTiles(){for(let i=0;i<NT;i++)writeTile(i);bodyI.instanceMatrix.needsUpdate=true;symI.instanceMatrix.needsUpdate=true;bodyI.computeBoundingSphere();symI.computeBoundingSphere();tilesDirty=false;key.shadow.needsUpdate=true}
+
+  // ---- depth/dim: on wide screens the table recedes and fades toward the wall once the word forms, so the lockup reads cleanly;
+  // slots whose element flew out become faint ghost tiles (no duplicates).
+  let recede=0,dimNow=-1,colorsDirty=true;const cB=new THREE.Color(),cS=new THREE.Color(),cBG=new THREE.Color(C.bg);
+  function updateColors(dim){for(let i=0;i<NT;i++){const t=tiles[i],g=t.ghost;
+      cB.set(t.f[0]).lerp(cBG,Math.max(dim*.35,g*.8));bodyI.setColorAt(i,cB);
+      cS.set(t.f[1]).lerp(cBG,Math.max(dim*.4,g*.93));symI.setColorAt(i,cS)}
+    bodyI.instanceColor.needsUpdate=true;symI.instanceColor.needsUpdate=true;colorsDirty=false}
+  // soft stone halo behind the lockup (wide screens), fades in with the dim
+  const hc=document.createElement('canvas');hc.width=hc.height=256;{const x=hc.getContext('2d'),gr=x.createRadialGradient(128,128,0,128,128,128);gr.addColorStop(0,'rgba(255,255,255,1)');gr.addColorStop(.62,'rgba(255,255,255,1)');gr.addColorStop(1,'rgba(255,255,255,0)');x.fillStyle=gr;x.fillRect(0,0,256,256)}
+  const halo=new THREE.Mesh(new THREE.PlaneGeometry(1,1),new THREE.MeshBasicMaterial({map:new THREE.CanvasTexture(hc),color:C.bg,transparent:true,opacity:0,depthWrite:false,toneMapped:false}));halo.renderOrder=3;scene.add(halo);
 
   // ---- flying tiles: the word (K h e m i s t r y) and People / Place / Purpose
   const mkFly=(srcZ,atlasIdx,toCol,toTxt)=>{const grp=new THREE.Group();const f=FAM[fam(srcZ)];
@@ -108,7 +119,7 @@ async function init(){
   function layout(){W=CAPTURE?(+Q.get('w')||innerWidth):hero.clientWidth;H=CAPTURE?(+Q.get('h')||innerHeight):hero.clientHeight;L=window.KhemLayout(W,H);
     vcam.fov=L.fov;vcam.aspect=L.A;vcam.position.set(0,0,L.D);vcam.lookAt(0,0,0);vcam.updateProjectionMatrix();
     tiles.forEach((t,i)=>{t.base.set(L.X0+(t.c-.5)*L.s,L.Ytop-(t.r-.5)*L.s,0)});
-    wall.position.z=-.16*L.s;
+    wall.position.z=-.16*L.s-(L.dim?1.7*L.s:0);
     // key light: upper-left, in front; ortho shadow box sized to the view
     const hh=L.hh0,hw=hh*L.A;key.position.set(-.55*hw*1.6,hh*1.5,L.D*.9);key.target.position.set(.1*hw,-.1*hh,0);
     Object.assign(key.shadow.camera,{left:-hw*1.5,right:hw*1.5,top:hh*1.6,bottom:-hh*1.6,near:1,far:L.D*3});key.shadow.camera.updateProjectionMatrix();
@@ -118,7 +129,7 @@ async function init(){
     spP=new THREE.CatmullRomCurve3([V(k.x-.15*hh,k.y-1.05*hh,.42*L.D),V(tc.x-.6*hw,tc.y-.95*hh,.74*L.D),V(-.18*hw,-.32*hh,.93*L.D),V(0,0,L.D)],false,'centripetal');
     spT=new THREE.CatmullRomCurve3([V(k.x+.75*hh,k.y+.15*hh,0),tc.clone(),tc.clone().multiplyScalar(.45),V(0,0,0)],false,'centripetal');
     renderer.setPixelRatio(dpr);renderer.setSize(W,H,!CAPTURE);
-    cam.aspect=L.A;cam.fov=L.fov;cam.updateProjectionMatrix();flushTiles();key.shadow.needsUpdate=true;}
+    cam.aspect=L.A;cam.fov=L.fov;colorsDirty=true;cam.updateProjectionMatrix();flushTiles();key.shadow.needsUpdate=true;}
   layout();
   let rT=0;addEventListener('resize',()=>{clearTimeout(rT);rT=setTimeout(()=>{layout();if(!CAPTURE)frame(clock,0)},80)});
 
@@ -140,7 +151,7 @@ async function init(){
     bez(w.position,src,A_,B_,to,p);w.scale.setScalar(L.s+(sz-L.s)*ss(.15,1,p));
     w.rotation.set((1-p)*.25*Math.sin(p*Math.PI),spin*(1-sm(cl(p*1.1))),0);
     const sw=ss(.3,.7,p);w.userData.sym.material.opacity=1-sw;w.userData.lt.material.opacity=sw;w.userData.m.material.color.lerpColors(w.userData.from,w.userData.to,sw);
-    const t=tiles[w.userData.srcI],sc=p<=0?1:ss(.72,1,p);if(Math.abs(t.scale-sc)>1e-4){t.scale=sc;tilesDirty=true}}
+    const t=tiles[w.userData.srcI],sc=p<=0?1:ss(.72,1,p),gh=p>0?1:0;if(Math.abs(t.scale-sc)>1e-4){t.scale=sc;tilesDirty=true}if(t.ghost!==gh){t.ghost=gh;colorsDirty=true}}
 
   let shadowsAllowed=true;
   function frame(t,dt=1/60){
@@ -156,17 +167,21 @@ async function init(){
       for(let i=0;i<NT;i++){const b=tiles[i].base,dx=b.x-ptr.x,dy=b.y-ptr.y,l=.45*Math.exp(-(dx*dx+dy*dy)/R2)*ptrOn*live;if(Math.abs(l-tiles[i].lift)>1e-4){tiles[i].lift=l;tilesDirty=true}}}
     // word
     word.forEach((w,i)=>{const t0=i===0?2.5:3.9+i*.12,dur=i===0?1.7:1.3,p=cl((t-t0)/dur);w.visible=t>=t0;
-      if(!w.visible){const tl=tiles[w.userData.srcI];if(tl.scale!==1){tl.scale=1;tilesDirty=true}return}
+      if(!w.visible){const tl=tiles[w.userData.srcI];if(tl.scale!==1){tl.scale=1;tilesDirty=true}if(tl.ghost){tl.ghost=0;colorsDirty=true}return}
       const e=i===0?eio(p):expo(p);fly(w,L.word[i],L.ws,e,i===0?2.4:3.4+(i%3)*.5,i===0?0:(i%2?1:-1)*Math.PI*2);
       w.position.y+=Math.sin(t*1.1+i*.7)*.012*L.s*live;});
     // People / Place / Purpose
     ppp.forEach((w,i)=>{const t0=6.5+i*.16,p=cl((t-t0)/1.25);w.visible=t>=t0;
-      if(!w.visible){const tl=tiles[w.userData.srcI];if(tl.scale!==1){tl.scale=1;tilesDirty=true}return}
+      if(!w.visible){const tl=tiles[w.userData.srcI];if(tl.scale!==1){tl.scale=1;tilesDirty=true}if(tl.ghost){tl.ghost=0;colorsDirty=true}return}
       fly(w,L.ppp[i],L.ps,expo(p),4,(i-1)*Math.PI);
       const h=hov[i]+(focusK===KS[i]?foc:0);w.position.z+=h*.5*L.s;w.position.y+=h*.08*L.ps+Math.sin(t*1.2+i*2)*.01*L.ps*live;
       w.rotation.x+=(-par.y*.25)*live*.6;w.rotation.y+=(par.x*.35)*live*.6;});
     // portrait: fade in with the light (the image itself never moves)
     pMat.opacity=ss(6.1,7.3,t);portrait.visible=pMat.opacity>0;
+    {const d=L.dim?ss(6.3,7.6,t):0;const r=d*L.dim*1.2;if(Math.abs(r-recede)>1e-4){recede=r;tilesDirty=true}
+      if(Math.abs(d-dimNow)>1e-3){dimNow=d;colorsDirty=true}
+      if(L.halo){halo.visible=d>0;halo.material.opacity=d;halo.position.set(L.halo.x,L.halo.y,.35*L.s);halo.scale.set(L.halo.w,L.halo.h,1)}else halo.visible=false}
+    if(colorsDirty)updateColors(dimNow*(L.dim||0));
     if(tilesDirty)flushTiles();
     // shadows only re-render while something moves
     if(shadowsAllowed&&(t<T_SETTLE||foc>.001||Math.max(...hov)>.001||ptrOn>.002))key.shadow.needsUpdate=true;
@@ -188,7 +203,7 @@ async function init(){
   new IntersectionObserver(es=>{const v=es[0].isIntersecting;if(v&&!visible){visible=true;kick()}else visible=v}).observe(hero);
   addEventListener('khem:skip',()=>{if(clock<T_SETTLE)offset+=T_SETTLE-clock});
   addEventListener('khem:replay',()=>{start=null;offset=0;clock=0;last=0;acc=0;cnt=0;lowStreak=0;hoverK=focusK=null;foc=0;hov.fill(0);par.set(0,0,0);parT.set(0,0,0);ptrOn=ptrOnT=0;
-    tiles.forEach(t=>{t.lift=0;t.scale=1});tilesDirty=true;root.classList.remove('done3d');stats.replays++;frame(0,0);if(!visible)visible=true;});
+    tiles.forEach(t=>{t.lift=0;t.scale=1;t.ghost=0});colorsDirty=true;recede=0;tilesDirty=true;root.classList.remove('done3d');stats.replays++;frame(0,0);if(!visible)visible=true;});
   addEventListener('pagehide',()=>{running=false});
   window.KhemScene={frame,stats,T_SETTLE,layout,get time(){return clock}};
   root.classList.add('ready3d');

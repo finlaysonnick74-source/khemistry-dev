@@ -283,3 +283,8 @@ img.portrait{-webkit-mask:linear-gradient(#000 82%,transparent);mask:linear-grad
 @media (max-aspect-ratio:1/1) and (max-width:599px){.tile-panel .rights{grid-template-columns:1fr 1fr;font-size:15.5px}.tile-panel .rights li{white-space:nowrap}}
 /* v7: short laptop windows: tighter hero type + buttons so the CTA row always clears the hero's bottom edge */
 @media (min-aspect-ratio:1/1) and (max-height:720px){.h3d .headline{font-size:clamp(20px,1.9vw,30px)}.h3d .ctas{margin-top:12px}.h3d .btn{min-height:42px}}
+/* v8: the tagline + buttons are part of the centred title lockup (positioned by js/home.js) */
+.titlecard{text-align:center;margin-top:0}.h3d .ctas{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
+@media (max-aspect-ratio:1/1){.titlecard{left:var(--hl-x);right:auto;top:var(--hl-y);bottom:auto;width:var(--hl-w);padding:0}.titlecard::before{display:none}
+ .h3d .ctas{display:grid;grid-template-columns:1fr 1fr;gap:10px}}
+@media (max-aspect-ratio:1/1) and (min-width:600px){.h3d .ctas{max-width:520px;margin-left:auto;margin-right:auto}}
