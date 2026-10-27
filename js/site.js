@@ -83,7 +83,7 @@
   function fam(z){function a(l){return l.indexOf(z)>=0}if(z>=57&&z<=71||z>=89&&z<=103)return'f';if(a([3,11,19,37,55,87]))return'alk';if(a([2,10,18,36,54,86,118]))return'nob';if(a([9,17,35,53,85,117]))return'hal';
     if(a([4,12,20,38,56,88]))return'ae';if(a([13,31,49,50,81,82,83,84,113,114,115,116,5,14,32,33,51,52]))return'post';return'tr'}
   var ghosts=[];
-  if(!document.body.classList.contains('home'))document.querySelectorAll('.sec.hero').forEach(function(sec){
+  if(!document.body.classList.contains('home'))document.querySelectorAll('.sec.hero').forEach(function(sec){if(sec.querySelector('img.portrait'))return;/* no table behind Maidlin */
     var g=document.createElement('div');g.className='pt-ghost';g.setAttribute('aria-hidden','true');var h='';
     for(var z=1;z<=118;z++){var p=pos(z);h+='<span class="'+fam(z)+'" style="grid-row:'+p[0]+';grid-column:'+p[1]+'"><i>'+z+'</i>'+SYM[z-1]+'</span>'}
     g.innerHTML=h;sec.insertBefore(g,sec.firstChild);ghosts.push(g)});

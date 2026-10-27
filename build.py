@@ -16,7 +16,8 @@ def head(file,title,desc,extra="",cls=""):
 <meta property="og:type" content="website"><meta property="og:site_name" content="Khemistry"><meta property="og:title" content="{title}"><meta property="og:description" content="{desc}"><meta property="og:locale" content="en_AU">
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,50;1,9..144,300..600,50&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/site.css?v=5">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
+<link rel="stylesheet" href="css/site.css?v=6">
 {extra}<script>document.documentElement.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion')</script>
 </head>
 <body{cls}>
@@ -47,7 +48,7 @@ FOOT_T=f'''</main>
     <p class="foot-legal">{S["legal"]} <span class="draft-tag">{S["legal_tag"]}</span> · {S["location"]}</p>
   </div>
 </footer>
-<script src="js/site.js?v=5" defer></script>
+<script src="js/site.js?v=6" defer></script>
 <!--SCRIPTS--></body>
 </html>
 '''
@@ -174,7 +175,7 @@ pages["contact.html"]=(CO["title"],CO["desc"],f"""
   <div class="rv"><p class="eyebrow">{CO["msg_eyebrow"]} <span class="draft-tag">{CO["msg_tag"]}</span></p>
   <h2 data-draft="contact-h">{CO["msg_h"]}</h2>
   <!-- PLACEHOLDER: no form backend yet. The form posts nowhere; site.js opens the visitor's email app with the message pre-filled. Wire to a form service before launch. -->
-  <form class="form" id="contact-form" action="mailto:{EM}" method="post" enctype="text/plain">
+  <form class="form" id="contact-form" novalidate>
     <label>{CO["f_name"]}<input name="name" autocomplete="name" required></label>
     <label>{CO["f_email"]}<input name="email" type="email" autocomplete="email" required></label>
     <label>{CO["f_message"]}<textarea name="message" required></textarea></label>

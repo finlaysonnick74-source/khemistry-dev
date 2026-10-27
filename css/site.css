@@ -266,3 +266,11 @@ a.el:hover,a.el:focus-visible{--tz:10px}
 .f-panels .more{margin-top:24px}
 .f-panels .enter>*{animation:penter .7s var(--ease) both}.f-panels .enter>*:nth-child(2){animation-delay:.06s}.f-panels .enter>*:nth-child(3){animation-delay:.12s}
 @keyframes penter{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+/* v6 fixes: tablet hero type scale */
+@media (max-aspect-ratio:1/1) and (min-width:600px){.h3d .headline{font-size:34px}.h3d .ctas{max-width:520px}.credit{font-size:12px}}
+/* v6: ghost table stays in the right-hand band; single-column hero text never runs over it */
+@media (min-width:821px){.pt-ghost{width:min(500px,36vw);right:3vw}.sec.hero>.wrap:not(.grid2)>*{max-width:60%}}
+/* v6: phones: no ghost table behind hero text, tighter vertical rhythm */
+@media (max-width:820px){.pt-ghost{display:none}.sec.hero{min-height:0;padding-bottom:64px}.sec{padding-top:64px;padding-bottom:64px}.sec.hero{padding-top:112px}}
+/* v6: portrait melts into the section instead of ending on a hard edge */
+img.portrait{-webkit-mask:linear-gradient(#000 82%,transparent);mask:linear-gradient(#000 82%,transparent)}
