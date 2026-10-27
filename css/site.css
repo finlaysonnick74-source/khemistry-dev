@@ -275,3 +275,6 @@ a.el:hover,a.el:focus-visible{--tz:10px}
 /* v6: portrait melts into the section instead of ending on a hard edge */
 img.portrait{-webkit-mask:linear-gradient(#000 82%,transparent);mask:linear-gradient(#000 82%,transparent)}
 @media (min-width:821px){.sec.hero>.wrap:not(.grid2)>.tiles{max-width:none;flex-wrap:nowrap}.sec.hero .tiles .el{--size:clamp(84px,8vw,118px)}}
+/* v6: Skip/Replay hide while a P-tile panel is open; phone panel list fits on one line per item */
+.h3d.focus .h3d-ui{opacity:0;pointer-events:none}
+@media (max-aspect-ratio:1/1) and (max-width:599px){.tile-panel .rights{font-size:16.5px;gap:8px 12px}}
