@@ -8,7 +8,7 @@ _ld={"@context":"https://schema.org","@type":"EmploymentAgency","name":"Khemistr
  "areaServed":[{"@type":"Country","name":"Australia"},{"@type":"Place","name":"South East Asia"}]}
 _extra=f'''<meta name="twitter:card" content="summary_large_image">
 <script type="application/ld+json">{json.dumps(_ld,ensure_ascii=False)}</script>
-<script>(function(){{var d=document.documentElement,rm=matchMedia("(prefers-reduced-motion: reduce)").matches,gl=false;try{{gl=!!document.createElement("canvas").getContext("webgl2")}}catch(e){{}}if(location.search.indexOf("no3d")>=0)gl=false;d.classList.add(rm||!gl?"still3d":"live3d")}})()</script>
+<script>(function(){{var d=document.documentElement,rm=matchMedia("(prefers-reduced-motion: reduce)").matches,gl=false;try{{gl=!!document.createElement("canvas").getContext("webgl2")}}catch(e){{}}if(location.search.indexOf("no3d")>=0)gl=false;d.classList.add(!gl?"still3d":"live3d");if(rm&&gl)d.classList.add("rm3d")}})()</script>
 '''
 HEADX={"index.html":(_extra,"home")}
 _P=[("people",)+TILES["people"],("place",)+TILES["place"],("purpose",)+TILES["purpose"]]
@@ -50,7 +50,7 @@ pages["index.html"]=(H["title"],H["desc"],f'''
   <p class="rv rv-d2">{H["about_p"]}</p>
   <p class="rv rv-d3" style="margin-top:18px"><a href="about.html">{H["about_more"]}</a></p>
 </div></section>
-'''+human("glass")+FOOT('''<script src="js/home.js?v=6" defer></script>
+'''+human("glass")+FOOT('''<script src="js/home.js?v=7" defer></script>
 <script type="importmap">{"imports":{"three":"./vendor/three/three.module.js","three/addons/":"./vendor/three/addons/"}}</script>
-<script type="module" src="js/hero3d.js?v=6"></script>
+<script type="module" src="js/hero3d.js?v=7"></script>
 '''))

@@ -220,7 +220,7 @@ a.el:hover,a.el:focus-visible{--tz:10px}
 .h3d-still{position:absolute;inset:0;background:var(--bg) url(../assets/hero-still-desktop.webp) center/cover no-repeat;display:none}
 .still3d .h3d-still{display:block}.still3d .h3d-canvas{display:none}
 @media (max-aspect-ratio:1/1){.h3d-still{background-image:url(../assets/hero-still-mobile.webp)}}
-.h3d::after{content:"";position:absolute;inset:auto 0 0 0;height:56px;background:linear-gradient(rgba(var(--bg2-rgb),0),var(--tone-tint));pointer-events:none;z-index:2}
+.h3d::after{content:"";position:absolute;inset:auto 0 0 0;height:36px;background:linear-gradient(rgba(var(--bg2-rgb),0),var(--tone-tint));pointer-events:none;z-index:2}
 .credit{position:absolute;left:var(--cr-x,50%);top:var(--cr-y,30%);transform:translate(-50%,-50%);margin:0;display:flex;align-items:center;gap:16px;white-space:nowrap;font:600 12.5px/1 var(--sans);letter-spacing:.3em;text-transform:uppercase;color:var(--text);z-index:3;max-width:none}
 .cr-sep{width:30px;height:1px;background:var(--accent)}
 .cr-role{color:var(--accent-d)}
@@ -281,3 +281,5 @@ img.portrait{-webkit-mask:linear-gradient(#000 82%,transparent);mask:linear-grad
 .tile-panel{background:rgba(var(--bg2-rgb),.97)}
 @media (max-aspect-ratio:1/1){.h3d.focus .titlecard{visibility:hidden}}
 @media (max-aspect-ratio:1/1) and (max-width:599px){.tile-panel .rights{grid-template-columns:1fr 1fr;font-size:15.5px}.tile-panel .rights li{white-space:nowrap}}
+/* v7: short laptop windows: tighter hero type + buttons so the CTA row always clears the hero's bottom edge */
+@media (min-aspect-ratio:1/1) and (max-height:720px){.h3d .headline{font-size:clamp(20px,1.9vw,30px)}.h3d .ctas{margin-top:12px}.h3d .btn{min-height:42px}}

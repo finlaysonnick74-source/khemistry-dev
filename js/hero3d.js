@@ -193,5 +193,6 @@ async function init(){
   window.KhemScene={frame,stats,T_SETTLE,layout,get time(){return clock}};
   root.classList.add('ready3d');
   if(CAPTURE){running=false;frame(0,0);window.KhemReady=true;return}
-  frame(0,0);requestAnimationFrame(loop);
+  if(root.classList.contains('rm3d'))offset=T_SETTLE+.05;/* reduced motion: show the settled scene, no intro */
+  frame(offset,0);requestAnimationFrame(loop);
 }

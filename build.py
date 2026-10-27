@@ -17,7 +17,7 @@ def head(file,title,desc,extra="",cls=""):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,50;1,9..144,300..600,50&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<link rel="stylesheet" href="css/site.css?v=6">
+<link rel="stylesheet" href="css/site.css?v=7">
 {extra}<script>document.documentElement.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion')</script>
 </head>
 <body{cls}>
@@ -48,7 +48,7 @@ FOOT_T=f'''</main>
     <p class="foot-legal">{S["legal"]} <span class="draft-tag">{S["legal_tag"]}</span> · {S["location"]}</p>
   </div>
 </footer>
-<script src="js/site.js?v=6" defer></script>
+<script src="js/site.js?v=7" defer></script>
 <!--SCRIPTS--></body>
 </html>
 '''

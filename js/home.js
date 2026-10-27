@@ -43,8 +43,10 @@ function place(){const r=hero.getBoundingClientRect(),L=KhemLayout(r.width,r.hei
   const[cx,cy]=L.proj(L.credit);hero.style.setProperty('--cr-x',cx+'%');hero.style.setProperty('--cr-y',cy+'%');
   hero.style.setProperty('--tile',L.px(L.ps,.9)+'px');
   $$('.ppp-hit').forEach((b,i)=>{const[x,y]=L.proj(L.ppp[i]);b.style.left=x+'%';b.style.top=y+'%'});
-  if(L.hl){const[x,y]=L.proj(L.hl),[xr]=L.proj({x:L.hl.right,y:0,z:0});hero.style.setProperty('--hl-x',x+'%');hero.style.setProperty('--hl-y',y+'%');hero.style.setProperty('--hl-w',(xr-x)+'%')}}
-place();addEventListener('resize',place);
+  if(L.hl){const[x,y]=L.proj(L.hl),[xr]=L.proj({x:L.hl.right,y:0,z:0});hero.style.setProperty('--hl-x',x+'%');hero.style.setProperty('--hl-y',y+'%');hero.style.setProperty('--hl-w',(xr-x)+'%');
+    /* short windows: never let the CTA row run into the hero's bottom edge */
+    const tcH=dom.tc.offsetHeight,maxTop=r.height-tcH-44;if(y/100*r.height>maxTop)hero.style.setProperty('--hl-y',Math.max(0,maxTop/r.height*100)+'%')}}
+place();addEventListener('resize',place);document.fonts&&document.fonts.ready.then(place);
 const ss=(a,b,x)=>{const t=Math.min(1,Math.max(0,(x-a)/(b-a)));return t*t*(3-2*t)};
 /* the lockup appears only after the word has formed (letters land by t=6.2) */
 function drive(t,foc){const c1=ss(6.35,7.1,t);dom.credit.style.opacity=c1;dom.credit.style.transform=`translate(-50%,calc(-50% + ${(1-c1)*8}px))`;dom.credit.style.letterSpacing=(.3+.16*(1-c1))+'em';
