@@ -274,3 +274,4 @@ a.el:hover,a.el:focus-visible{--tz:10px}
 @media (max-width:820px){.pt-ghost{display:none}.sec.hero{min-height:0;padding-bottom:64px}.sec{padding-top:64px;padding-bottom:64px}.sec.hero{padding-top:112px}}
 /* v6: portrait melts into the section instead of ending on a hard edge */
 img.portrait{-webkit-mask:linear-gradient(#000 82%,transparent);mask:linear-gradient(#000 82%,transparent)}
+@media (min-width:821px){.sec.hero>.wrap:not(.grid2)>.tiles{max-width:none;flex-wrap:nowrap}.sec.hero .tiles .el{--size:clamp(84px,8vw,118px)}}
