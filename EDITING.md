@@ -27,3 +27,9 @@ Don't edit the `.html` files directly: the next build overwrites them.
 
 ## Check
 `python3 ../site-test.py` should print `ALL PASS`. To take review screenshots, run `python3 review/paletteB/shoot.py`.
+
+## Home page (v5)
+- Copy: `HOME` in content.py (plus FORMULA / RIGHTS / TILES for the tabs and P tiles). Structure: build_home.py. Rebuild: `python3 build.py`.
+- 3D hero: js/hero3d.js (Three.js r170 vendored in vendor/three). It reads colours from the :root palette in css/site.css. Layout shared with the DOM: js/home.js `KhemLayout`.
+- Fallback stills (reduced motion / no WebGL): assets/hero-still-*.webp. Regenerate them after layout changes.
+- Tests: /workspace/khem/site-test.py. Frame capture: /workspace/khem/capture.py.
