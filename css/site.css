@@ -278,3 +278,6 @@ img.portrait{-webkit-mask:linear-gradient(#000 82%,transparent);mask:linear-grad
 /* v6: Skip/Replay hide while a P-tile panel is open; phone panel list fits on one line per item */
 .h3d.focus .h3d-ui{opacity:0;pointer-events:none}
 @media (max-aspect-ratio:1/1) and (max-width:599px){.tile-panel .rights{font-size:16.5px;gap:8px 12px}}
+.tile-panel{background:rgba(var(--bg2-rgb),.97)}
+@media (max-aspect-ratio:1/1){.h3d.focus .titlecard{visibility:hidden}}
+@media (max-aspect-ratio:1/1) and (max-width:599px){.tile-panel .rights{grid-template-columns:1fr 1fr;font-size:15.5px}.tile-panel .rights li{white-space:nowrap}}
