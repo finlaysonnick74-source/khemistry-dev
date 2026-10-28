@@ -1,19 +1,19 @@
-/* Khemistry inner pages. Palette B: soft stone + muted sage + near-black.
+/* Khemistry inner pages. Palette B: soft stone + ocean teal + near-black.
    ALL colours live in this one :root block. Change a hex here, then reload (no rebuild needed for CSS/JS).
    The *-rgb triplets must match their hex twin (used for translucent shadows/lines). */
 :root{
   /* --- core palette --- */
   --bg:#EFECE5;           /* page background (stone) */
   --bg-2:#F6F4EF;         /* lighter stone: nav, menu, cards */
-  --accent:#56715B;       /* sage: buttons, links underline, dots */
-  --accent-d:#445A48;     /* darker sage: eyebrows, pull quotes, button hover */
-  --tint-1:#E7EAE1;       /* sage tint: "tint" sections (heroes) */
-  --tint-2:#DCE3D7;       /* sage tint: "glass" sections + glass tiles */
-  --tint-3:#C2CFBF;       /* sage tint: alternate tiles */
+  --accent:#127386;       /* ocean teal: buttons, links underline, dots */
+  --accent-d:#0E5D6C;     /* darker ocean teal: eyebrows, pull quotes, button hover */
+  --tint-1:#E6F1F1;       /* ocean teal tint: "tint" sections (heroes) */
+  --tint-2:#D7EBEC;       /* ocean teal tint: "glass" sections + glass tiles */
+  --tint-3:#B8DDE0;       /* ocean teal tint: alternate tiles */
   --text:#1C1C1A;         /* main text */
   --text-2:#3F3F3B;       /* secondary text */
   --on-accent:#FFFFFF;    /* text on accent buttons */
-  --accent-rgb:86,113,91; --text-rgb:28,28,26; --bg2-rgb:246,244,239; --hi-rgb:255,255,255;
+  --accent-rgb:18,115,134; --text-rgb:28,28,26; --bg2-rgb:246,244,239; --hi-rgb:255,255,255;
   /* --- section background tones (read by js/site.js for the scroll gradient) --- */
   --tone-tint:var(--tint-1); --tone-glass:var(--tint-2); --tone-cream:var(--bg);
   /* --- internal aliases (don't edit; point at the palette above) --- */
