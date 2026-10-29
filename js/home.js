@@ -85,7 +85,7 @@ $('.skip').addEventListener('click',()=>dispatchEvent(new CustomEvent('khem:skip
 function replay(){closePanel();const m=$('.menu'),l=$('#navlist');if(m){m.setAttribute('aria-expanded','false');l.classList.remove('open')}
   window.scrollTo({top:0,left:0,behavior:'instant'});
   if(root.classList.contains('live3d'))dispatchEvent(new CustomEvent('khem:replay'));
-  const k=$('.brand-k');k.classList.remove('pulse');void k.offsetWidth;k.classList.add('pulse');}
+  const k=$('.brand-logo');k.classList.remove('pulse');void k.offsetWidth;k.classList.add('pulse');}
 window.KhemReplay=replay;
 $('.replay').addEventListener('click',replay);
 const brand=$('.brand');brand.addEventListener('click',e=>{e.preventDefault();replay();brand.focus({preventScroll:true})});

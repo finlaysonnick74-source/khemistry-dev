@@ -17,14 +17,14 @@ def head(file,title,desc,extra="",cls=""):
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..700,50;1,9..144,300..600,50&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <link rel="icon" href="assets/favicon.svg" type="image/svg+xml"><link rel="icon" href="favicon.ico" sizes="32x32"><link rel="apple-touch-icon" href="assets/apple-touch-icon.png">
-<link rel="stylesheet" href="css/site.css?v=8">
+<link rel="stylesheet" href="css/site.css?v=9">
 {extra}<script>document.documentElement.classList.add('js');if(!matchMedia('(prefers-reduced-motion: reduce)').matches)document.documentElement.classList.add('motion')</script>
 </head>
 <body{cls}>
 <a class="skiplink" href="#main">{S["skip"]}</a>
 <div class="bg" aria-hidden="true"><div class="bg-track"></div></div><div class="bg-drift" aria-hidden="true"></div>
 <header class="nav">
-  <a class="brand" href="index.html" aria-label="Khemistry home: replay the opening"><span class="brand-k">K</span>hemistry</a>
+  <a class="brand" href="index.html" aria-label="Khemistry home: replay the opening"><img class="brand-logo" src="assets/logo.svg" width="248" height="158" alt="Khemistry"></a>
   <nav aria-label="Primary"><ul id="navlist">
 ''' + "".join(f'    <li><a href="{h}"{" aria-current=\"page\"" if h==file else ""}>{t}</a></li>\n' for h,t in NAV) + f'''    <li><a class="nav-cta" href="contact.html"{" aria-current=\"page\"" if file=="contact.html" else ""}>{S["nav_contact"]}</a></li>
   </ul></nav>
