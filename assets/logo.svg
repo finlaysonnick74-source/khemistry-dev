@@ -1,16 +1,16 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 248 158" role="img" aria-labelledby="logo-title logo-desc">
   <title id="logo-title">Khemistry</title>
-  <desc id="logo-desc">Teal molecule: a central hub, an orbital ring, and connected nodes.</desc>
+  <desc id="logo-desc">Ocean teal molecule: a central hub, an orbital ring, and connected nodes.</desc>
   <defs>
     <radialGradient id="ball" cx="32%" cy="28%" r="72%">
       <stop offset="0%" stop-color="#ffffff"/>
-      <stop offset="16%" stop-color="#d9f8fd"/>
-      <stop offset="42%" stop-color="#3ecfe0"/>
-      <stop offset="74%" stop-color="#14b8ca"/>
-      <stop offset="100%" stop-color="#067e94"/>
+      <stop offset="16%" stop-color="#E6F1F1"/>
+      <stop offset="42%" stop-color="#3E97A6"/>
+      <stop offset="74%" stop-color="#127386"/>
+      <stop offset="100%" stop-color="#0E5D6C"/>
     </radialGradient>
   </defs>
-  <g fill="none" stroke="#15c0d2" stroke-linecap="round" stroke-linejoin="round">
+  <g fill="none" stroke="#127386" stroke-linecap="round" stroke-linejoin="round">
     <ellipse cx="142" cy="82" rx="72" ry="40" transform="rotate(-18 142 82)" stroke-width="5.5"/>
     <g stroke-width="4.2">
       <path d="M26 100 L78 78"/>
